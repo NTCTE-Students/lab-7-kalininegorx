@@ -1,18 +1,27 @@
 <?php
-setcookie('preferences', 'dark_mode', time() + 604800);
+session_start();
+
+if(isset($_GET['logout'])) {
+    unset($_SESSION['username']);
+    session_destroy();
+
+    header("Location: 2.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Установка куки 'preferences'</title>
+    <title>Страница приветствия</title>
 </head>
 <body>
     <?php
-    if(isset($_COOKIE['preferences'])) {
-        echo "Куки 'preferences' установлена и имеет значение: " . $_COOKIE['preferences'];
+    if(isset($_SESSION['username'])) {
+        echo "Здравствуйте, " . $_SESSION['username'] . "! | ";
+        echo "<a href='?logout'>Выйти</a>";
     } else {
-        echo "Куки 'preferences' не найдена.";
+        echo "Не удалось распознать пользователя.";
     }
     ?>
 </body>
